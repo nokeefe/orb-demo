@@ -1,2 +1,2 @@
 #!/bin/bash
-echo Hello "${PARAM_TO}"
+echo This is a simple orb test "${PARAM_TO}"
