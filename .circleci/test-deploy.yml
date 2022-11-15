@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   orb-demo: nokeefe/orb-demo@dev:<<pipeline.git.revision>>
-  orb-tools: circleci/orb-tools@11.1
+  orb-tools: circleci/orb-tools@11.5
 
 filters: &filters
   tags:
@@ -16,7 +16,9 @@ jobs:
     steps:
       - checkout
       # Run your orb's commands to validate them.
-      - orb-demo/greet
+      - orb-demo/add:
+          numA: 2
+          numB: 3
 workflows:
   test-deploy:
     jobs:
@@ -38,3 +40,5 @@ workflows:
               ignore: /.*/
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+
+# VS Code Extension Version: 1.0.2
