@@ -35,8 +35,8 @@ workflows:
           filters: *filters
           post-steps:
             - run:
-              name: Should equal 5
-              command: grep -xq 5 /tmp/ADD_RESULT.txt
+                name: Should equal 5
+                command: grep -xq 5 /tmp/ADD_RESULT.txt
       - orb-tools/pack:
           filters: *filters
       - orb-tools/publish:
