@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   orb-demo: nokeefe/orb-demo@dev:<<pipeline.git.revision>>
-  orb-tools: circleci/orb-tools@11.1
+  orb-tools: circleci/orb-tools@11.5
 
 filters: &filters
   tags:
@@ -16,13 +16,27 @@ jobs:
     steps:
       - checkout
       # Run your orb's commands to validate them.
-      - orb-demo/greet
+      - orb-demo/add:
+          numA: 2
+          numB: 3
+      - run:
+          name: Should equal 5
+          command: grep -xq 5 /tmp/ADD_RESULT.txt
 workflows:
   test-deploy:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
       - command-tests:
           filters: *filters
+      - orb-demo/calc:
+          func: "ADD"
+          numA: 2
+          numB: 3
+          filters: *filters
+          post-steps:
+            - run:
+                name: Should equal 5
+                command: grep -xq 5 /tmp/ADD_RESULT.txt
       - orb-tools/pack:
           filters: *filters
       - orb-tools/publish:
@@ -32,9 +46,12 @@ workflows:
           requires:
             - orb-tools/pack
             - command-tests
+            - orb-demo/calc
           context: orb-publishing
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+
+# VS Code Extension Version: 1.0.2
