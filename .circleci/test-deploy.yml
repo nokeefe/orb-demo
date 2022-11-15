@@ -31,7 +31,7 @@ workflows:
       - orb-demo/calc:
           func: "ADD"
           numA: 2
-          numb: 3
+          numB: 3
           filters: *filters
           post-steps:
             - run:
